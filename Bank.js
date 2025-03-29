@@ -36,6 +36,10 @@ class Account {
         this.transactionHistory.push(transaction);
     }
 
+    getTransactionHistory() {
+        return this.transactionHistory;
+    }
+
     deposit(amount) {
         this.setDeposit(amount);
         this.updateTransactionHistory({transactionType:'Deposit', amount: amount});
