@@ -5,6 +5,12 @@ class Bank {
         this.accounts = []; // Stores all accounts in the bank
     }
 
+    createAccount(name, initialDeposit){
+        var account = new Account(name, initialDeposit);
+        this.accounts.push(account);
+        return account;
+    }
+
     // Add methods here:
     // Example: createAccount(name, initialDeposit)
 
@@ -16,6 +22,39 @@ class Account {
         this.name = name; // Account holder's name
         this.balance = balance; // Initial balance (default is 0)
         this.transactionHistory = []; // Keeps a record of all transactions
+    }
+
+    setDeposit(amount) {
+        this.balance = this.balance + amount;
+    }
+
+    setWithdrawal(amount) {
+        this.balance = this.balance - amount;
+    }
+
+    updateTransactionHistory(transaction) {
+        this.transactionHistory.push(transaction);
+    }
+
+    deposit(amount) {
+        this.setDeposit(amount);
+        this.updateTransactionHistory({transactionType:'Deposit', amount: amount});
+    }
+
+    withdraw(amount) {
+        this.setWithdrawal(amount);
+        this.updateTransactionHistory({transactionType:'Withdrawal', amount: amount});
+    }
+
+    transfer(amount, recipientAccount) {
+        this.setWithdrawal(amount);
+        this.updateTransactionHistory({transactionType:'Transfer', amount:amount, to:recipientAccount.name});
+        recipientAccount.setDeposit(amount);
+        recipientAccount.updateTransactionHistory({transactionType:'Received', amount: amount, from: this.name});
+    }
+
+    checkBalance(){
+        return this.balance;
     }
 
     // Add methods here:
